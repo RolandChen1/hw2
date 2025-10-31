@@ -34,6 +34,26 @@ public class ExpenseTrackerApp {
       }
     });
 
+    // Handle apply filter button clicks
+    view.getApplyFilterBtn().addActionListener(e -> {
+      String selected = (String) view.getFilterTypeCombo().getSelectedItem();
+      String type;
+      if ("No Filter".equals(selected)) {
+        type = "none";
+      } else if ("Amount".equals(selected)) {
+        type = "amount";
+      } else {
+        type = "category";
+      }
+
+      String value = view.getFilterInputText();
+      boolean ok = controller.applyFilter(type, value);
+      if (!ok) {
+        JOptionPane.showMessageDialog(view, "Invalid filter input");
+        view.toFront();
+      }
+    });
+
   }
 
 }

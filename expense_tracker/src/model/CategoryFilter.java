@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.InputValidation;
+
 /**
  * Filters transactions by category name.
  */
@@ -27,13 +29,18 @@ public class CategoryFilter implements TransactionFilter {
   @Override
   public List<Transaction> filter(List<Transaction> transactions) {
     List<Transaction> out = new ArrayList<>();
-    if (category == null) return out;
+
+    // Validate the category before filtering
+    if (!InputValidation.isValidCategory(category)) {
+      return out; // return empty list if invalid category
+    }
+
     for (Transaction t : transactions) {
       if (t.getCategory() != null && t.getCategory().equalsIgnoreCase(category)) {
         out.add(t);
       }
     }
+
     return out;
   }
-
 }
